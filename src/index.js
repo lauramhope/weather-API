@@ -55,7 +55,7 @@ function getWeatherBy5Day(lat, lon) {
   });
 
   request.open("GET", url, true);
-  request.send();
+  // request.send();
 }
 
 // UI Logic
@@ -73,7 +73,7 @@ function handleFormSubmission(event) {
   event.preventDefault();
   const city = document.querySelector('#location').value;
   const zipCode = document.querySelector('#location').value; 
-  const {lat, lon} = document.querySelector('#location').value; 
+  const {Latitude: lat, Longitude: lon} = document.querySelector('#location').value; 
   document.querySelector('#location').value = null;
   getWeather(city);
   getWeatherByZip(zipCode); 
