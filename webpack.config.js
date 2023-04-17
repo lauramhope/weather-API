@@ -19,7 +19,7 @@ module.exports = {
     new CleanWebpackPlugin(),
     new Dotenv(),
     new HtmlWebpackPlugin({
-      title: 'Weather API',
+      title: 'Weather',
       template: './src/index.html',
       inject: 'body'
     })
