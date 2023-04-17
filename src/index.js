@@ -6,43 +6,57 @@ import './css/styles.css';
 
 // this is the code that handles creating our API call - making a request, sending it, and handling the response
 function getWeather(city) {
-  let request = new XMLHttpRequest(); // use the constructor of the XMLHttpRequest object (XHR) to create a new instance of it - save this instance in a variable called "request"
-  const url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${process.env.API_KEY}`;  // same the URL for our API call in a variable called "url" -- template literal with an embedded expression ${city} so the value the user inputs into the form is passed directly into our URL string via our city variable
+  let request = new XMLHttpRequest(); 
+  const url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${process.env.API_KEY}`;
+  // const url2 = `https://api.openweathermap.org/data/2.5/weather?zip=${zipCode},us&appid=${process.env.API_KEY_2}`;
 
-  request.addEventListener("loadend", function() { // listens for when our API call is complete, set up an event listener for the XMLHttpRequest object's event called "loadend" - will fire when a request (API call) has been completed, whether it was successful or not
-    const response = JSON.parse(this.responseText); // when the API call is finished, the callback function will run - does 3 things 1. parses the API response, 2. checks to see if it was 200 (successful). JSON parse() method is essential for working with APIs
-    console.log(response);
+  request.addEventListener("loadend", function() { 
+    const response = JSON.parse(this.responseText); 
+    // console.log(response);
     if (this.status === 200) {
-      printElements(response, city); // if successful, will print the data we received from the API
+      printElements(response, city); 
     } else {
-      // there's a new argument
       printError(this, response, city);
     }
   });
 
-  request.open("GET", url, true); // these lines of code open and send the request ... XMLHttpRequest.open() method takes 3 arguments - 1. the method of the request ("GET"), 2. the request URL (stored in a variable url), 3. a boolean for whether the request should be asynchronous or not -- we ALWAYS want it to be async, so the things in the parameters should always be the same
+  request.open("GET", url, true);
   request.send();
 }
 
-function getWeather2(zipCode) {
-  let request = new XMLHttpRequest(); // use the constructor of the XMLHttpRequest object (XHR) to create a new instance of it - save this instance in a variable called "request"
-  const url2 = `https://api.openweathermap.org/data/2.5/weather?zip=${zip code}&appid=${process.env.API_KEY}`  // same the URL for our API call in a variable called "url" -- template literal with an embedded expression ${city} so the value the user inputs into the form is passed directly into our URL string via our city variable
+function getWeatherByZip(zipCode) {
+  let request = new XMLHttpRequest();
+  const url = `http://api.openweathermap.org/data/2.5/weather?q=${zipCode},us&appid=${process.env.API_KEY_2}`;
 
-  request.addEventListener("loadend", function() { // listens for when our API call is complete, set up an event listener for the XMLHttpRequest object's event called "loadend" - will fire when a request (API call) has been completed, whether it was successful or not
-    const response = JSON.parse(this.responseText); // when the API call is finished, the callback function will run - does 3 things 1. parses the API response, 2. checks to see if it was 200 (successful). JSON parse() method is essential for working with APIs
-    console.log(response);
+  request.addEventListener("loadend", function() { 
+    const response = JSON.parse(this.responseText); 
     if (this.status === 200) {
-      printElements(response, zipCode); // if successful, will print the data we received from the API
+      printElements(response, zipCode); 
     } else {
-      // there's a new argument
       printError(this, response, zipCode);
     }
   });
 
-  request.open("GET", url2, true); // these lines of code open and send the request ... XMLHttpRequest.open() method takes 3 arguments - 1. the method of the request ("GET"), 2. the request URL (stored in a variable url), 3. a boolean for whether the request should be asynchronous or not -- we ALWAYS want it to be async, so the things in the parameters should always be the same
+  request.open("GET", url, true);
   request.send();
 }
 
+function getWeatherBy5Day(lat, lon) {
+  let request = new XMLHttpRequest();
+  const url = `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${process.env.API_KEY_3}`;
+
+  request.addEventListener("loadend", function() {
+    const response = JSON.parse(this.responseText);
+    if (this.status === 200) {
+      printElements(response, lat, lon);
+    } else {
+      printError(this, response, lat, lon); 
+    }
+  });
+
+  request.open("GET", url, true);
+  request.send();
+}
 
 // UI Logic
 
@@ -57,10 +71,13 @@ function printElements(apiResponse, city) {
 
 function handleFormSubmission(event) {
   event.preventDefault();
-  const city = document.querySelector('#location').value; // get value from form input and save it in a variable "city"
+  const city = document.querySelector('#location').value;
+  const zipCode = document.querySelector('#location').value; 
+  const {lat, lon} = document.querySelector('#location').value; 
   document.querySelector('#location').value = null;
-  getWeather(city); // call the getWeather function with the city as an argument - getWeather handles making our API call to get the current weather data for the user-inputted city
-  getWeather2(zipCode); 
+  getWeather(city);
+  getWeatherByZip(zipCode); 
+  getWeatherBy5Day(lat, lon); 
 }
 
 window.addEventListener("load", function() {
