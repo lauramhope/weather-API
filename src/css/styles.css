@@ -1,3 +1,9 @@
 body {
-  background-color: lightblue;
+  background-color: lightcoral;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  /* background-image: url("weatherpic.jpg");
+  background-position: auto;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed; */
 }
