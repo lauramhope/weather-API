@@ -3,25 +3,65 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/styles.css';
 import WeatherService from './weather.service';
 
+async function getWeather(city) {
+  const response = await WeatherService.getWeather(city);
+  if (response.main) {
+    printElements(response, city);
+  } else {
+    printError(response, city);
+  }
+}
+
+async function getWeatherByZip(zipCode) {
+  const response = await WeatherService.getWeatherByZip(zipCode);
+  if (response.main) {
+    printElements(response, zipCode);
+  } else {
+    printError(response, zipCode);
+  }
+}
+
 // Business Logic
 
-function getWeather(city) {
-  let promise = WeatherService.getWeather(city);
-  promise.then(function(weatherDataArray) {
-    printElements(weatherDataArray);
-  }, function(errorArray) {
-    printError(errorArray);
-  });
-}
+// function getWeather(city) {
+//   WeatherService.getWeather(city)
+//     .then(function(response) {
+//       if (response.main) {
+//         printElements(response, city);
+//       } else {
+//         printError(response, city);
+//       }
+//     });
+// }
 
-function getWeatherByZip(zipCode) {
-  let promise = WeatherService.getWeatherByZip(zipCode);
-  promise.then(function(weatherDataArray) {
-    printElements(weatherDataArray);
-  }, function(errorArray) {
-    printError(errorArray);
-  });
-}
+// function getWeatherByZip(zipCode) {
+//   WeatherService.getWeatherByZip(zipCode)
+//     .then(function(response) {
+//       if (response.main) {
+//         printElements(response, zipCode);
+//       } else {
+//         printError(response, zipCode);
+//       }
+//     });
+// }
+
+// function getWeather(city) {
+//   let promise = WeatherService.getWeather(city);
+//   promise.then(function(weatherDataArray) {
+//     printElements(weatherDataArray);
+//   }, function(errorArray) {
+//     printError(errorArray);
+//   });
+// }
+
+// function getWeatherByZip(zipCode) {
+//   let promise = WeatherService.getWeatherByZip(zipCode);
+//   promise.then(function(weatherDataArray) {
+//     printElements(weatherDataArray);
+//   }, function(errorArray) {
+//     printError(errorArray);
+//   });
+// }
 
 // function getWeatherBy5Day(lat, lon) {
 //   let request = new XMLHttpRequest();
